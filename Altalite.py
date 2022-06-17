@@ -9,10 +9,13 @@ import yfinance as yf  #import_danych_YahooFinance
 
 WY = input("WPISZ_TICKER_SPOLKI:")
 
-def INFO():  #Informacje_o_spolce
-       I = yf.Ticker(WY).info['longBusinessSummary']
-       return I
+def start():
+  
 
+
+def INFO(Informacje_o_spolce):  #Informacje_o_spolce
+       I = yf.Ticker(WY).info['longBusinessSummary']
+       print("INFORMACJE_NA_TEMAT_SPOLKI:", I)
 def META_DANE():
     print("PODSTAWOWE_DANE")
     print("-------------")
@@ -61,9 +64,6 @@ def WYCENA_WSKAZNIKOWA(): #wycena wskaźnikowa
     elif round(E_V,2) < 12:
         print("EV\EBITDA:", round(E_V,2), "[SPÓŁKA_NIEDOWARTOSCIOWANA]")
 
-
-
-
 def DIVIDEND():
     DIV = yf.Ticker(WY).info['dividendYield']  # Dividend_yield
     if DIV == None:
@@ -98,8 +98,12 @@ def VALUE(): #GRAHAM ,DCF, FCF, DDM
         print("PEG_RATIO:", round(PEG, 2), "[SPÓŁKA_NIEDOWARTOSCIOWANA]")
     #GRAHAM = (yf.Ticker(WY).info['forwardEps'] * (8.5 + (2 * yf.Ticker(WY).info['earningsGrowth'])))
     #GRAHAM = [EPS * (8.5 + 2g) * 4.4] /Y- 20letnia rentownosc obligacji korporacyjnych AAA (WEB SCRAPPING)
+    #DDM
+    #DCF
+    #FCF
+    #BUFFET
 
-def WZROST(): #WZROST,EBITDA,DLUG
+def WZROST(): #WZROST,EBITDA,DLUG  #pandas data frame
     REV_G = yf.Ticker(WY).info['revenueGrowth']
     print("SR_WZROST_PRZYCHODOW:",REV_G)
     EPS_G = yf.Ticker(WY).info['earningsGrowth']
@@ -186,9 +190,13 @@ def ZWROT():
     R_YTD = yf.Ticker(WY).info['ytdReturn']  # Zwrot od poczatku roku
     print("ZWROT_OD_POCZATKU_ROKU:", R_YTD)
     #-----
-    R_5Y = yf.Ticker(WY).info['fiveYearAverageReturn']  # Zwrot z 5 lat srediorocznie
+    R_5Y = yf.Ticker(WY).info['fiveYearAverageReturn']  # Zwrot z 5 lat sredniorocznie
     print("ZWROT_Z_OSTATNICH_5_LAT_SR_ROCZNIE:", R_5Y)
     #-----
+
+def FORCAST():
+    pass
+
 
 def HOLDERZY():
     print("-----------------------------------------")
@@ -207,7 +215,7 @@ def REKOMENDACJE_ANALITYKOW():
 
 def ZOBACZ_WYKRES():
     pass
-print(DIVIDEND())
+print(start())
 
 
 
@@ -216,11 +224,5 @@ print(DIVIDEND())
 
 #Pętla wybór programu z listy
 
-# DIV growth,
-# Dividend yield,
-#Model Gordona
-#GRAHAM model
-#buffet model
-#Wycena DCF/FCF
-#Prognozowana wycena za 10lat
+
 #punktacja wyceny wskaźnikowej
