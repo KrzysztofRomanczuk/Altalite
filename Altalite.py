@@ -14,94 +14,111 @@ def start():
     pass
 
 
-def INFO():  # Informacje_o_spolce
-    I = yf.Ticker(WY).info['longBusinessSummary']
-    print("INFORMACJE_NA_TEMAT_SPOLKI:", I)
+def info():  # Informacje_o_spolce
+    i = yf.Ticker(WY).info['longBusinessSummary']
+    print("INFORMACJE_NA_TEMAT_SPOLKI:", i)
 
 
-def META_DANE():
+def meta_dane():
+    print("-------------")
     print("PODSTAWOWE_DANE")
     print("-------------")
     # -----
-    NAZWA = yf.Ticker(WY).info['shortName']  # Nazwa
-    print("NAZWA:", NAZWA)
+    nazwa = yf.Ticker(WY).info['shortName']  # Nazwa
+    print("NAZWA:", nazwa)
     # ------
-    SEKTOR = yf.Ticker(WY).info['sector']  # Sektor
-    print("SEKTOR:", SEKTOR)
+    sektor = yf.Ticker(WY).info['sector']  # Sektor
+    print("SEKTOR:", sektor)
     # -----
-    INDUSTRY = yf.Ticker(WY).info['industry']  # BRANZA
-    print("BRANZA:", INDUSTRY)
+    branza = yf.Ticker(WY).info['industry']  # BRANZA
+    print("BRANZA:", branza)
     # -----
-    MARKETCAP = yf.Ticker(WY).info['marketCap']  # KAPITALIZACJA
-    print("KAPITALIZACJA_MLN_USD:", MARKETCAP)
+    kapitalizacja = yf.Ticker(WY).info['marketCap']  # KAPITALIZACJA
+    print("KAPITALIZACJA_MLN_USD:", kapitalizacja)
     # -----
-    CENA = yf.Ticker(WY).info['currentPrice']  # cena_akcji
-    print("CENA_AKCJI_W_USD:", CENA)
+    cena = yf.Ticker(WY).info['currentPrice']  # cena_akcji
+    print("CENA_AKCJI_W_USD:", cena)
 
 
-def WYCENA_WSKAZNIKOWA():  # wycena wskaźnikowa
+def wycena_wskaznikowa():  # wycena wskaźnikowa
     print("-------------")
     print("WYCENA_WSKAZNIKOWA")
     print("-------------")
 
-    P_E = yf.Ticker(WY).info['trailingPE']  # Cenadozysku
-    if round(P_E, 2) > 20:
-        print("CENA_DO_ZYSKU:", round(P_E, 2), "[SPÓŁKA_PRZEWARTOSCIOWANA]")
-    elif round(P_E, 2) == 20:
-        print("CENA_DO_ZYSKU:", round(P_E, 2), "[SPÓŁKA_SPRAWIEDLIWIE_WYCENIONA]")
-    elif round(P_E, 2) < 10:
-        print("CENA_DO_ZYSKU:", round(P_E, 2), "[SPÓŁKA_NIEDOWARTOSCIOWANA]")
+    p_e = yf.Ticker(WY).info['trailingPE']  # Cenadozysku
+    if round(p_e, 2) > 20:
+        print("CENA_DO_ZYSKU:", round(p_e, 2), "[SPÓŁKA_PRZEWARTOSCIOWANA]")
+    elif round(p_e, 2) == 20:
+        print("CENA_DO_ZYSKU:", round(p_e, 2), "[SPÓŁKA_SPRAWIEDLIWIE_WYCENIONA]")
+    elif round(p_e, 2) < 10:
+        print("CENA_DO_ZYSKU:", round(p_e, 2), "[SPÓŁKA_NIEDOWARTOSCIOWANA]")
 
-    P_B = yf.Ticker(WY).info['priceToBook']  # Cena_do_wartosci_ksiegowej
-    if round(P_B, 2) > 2:
-        print("CENA_DO_WARTOSCI_KSIEGOWEJ:", round(P_B, 2), "[SPÓŁKA_PRZEWARTOSCIOWANA]")
-    elif round(P_B, 2) == 1:
-        print("CENA_DO_ZYSKU:", round(P_B, 2), "[SPÓŁKA_SPRAWIEDLIWIE_WYCENIONA]")
-    elif round(P_B, 2) < 1:
-        print("CENA_DO_ZYSKU:", round(P_B, 2), "[SPÓŁKA_NIEDOWARTOSCIOWANA]")
+    p_b = yf.Ticker(WY).info['priceToBook']  # Cena_do_wartosci_ksiegowej
+    if p_b is None:
+        print("CENA_DO_WARTOSCI_KSIEGOWEJ:", "[Spolka_ma_ujemna_wartosc_ksiegowa]")
+    elif round(p_b, 2) > 2:
+        print("CENA_DO_WARTOSCI_KSIEGOWEJ:", round(p_b, 2), "[SPÓŁKA_PRZEWARTOSCIOWANA]")
+    elif round(p_b, 2) == 1:
+        print("CENA_DO_WARTOSCI_KSIEGOWEJ:", round(p_b, 2), "[SPÓŁKA_SPRAWIEDLIWIE_WYCENIONA]")
+    elif round(p_b, 2) < 1:
+        print("CENA_DO_WARTOSCI_KSIEGOWEJ:", round(p_b, 2), "[SPÓŁKA_NIEDOWARTOSCIOWANA]")
 
-    E_V = yf.Ticker(WY).info['enterpriseToEbitda']  # EV\EBITDA
-    if round(E_V, 2) > 12:
-        print("EV\EBITDA:", round(E_V, 2), "[SPÓŁKA_PRZEWARTOSCIOWANA]")
-    elif round(E_V, 2) == 12:
-        print("EV\EBITDA:", round(E_V, 2), "[SPÓŁKA_SPRAWIEDLIWIE_WYCENIONA]")
-    elif round(E_V, 2) < 12:
-        print("EV\EBITDA:", round(E_V, 2), "[SPÓŁKA_NIEDOWARTOSCIOWANA]")
+    e_v = yf.Ticker(WY).info['enterpriseToEbitda']  # EV\EBITDA
+    if round(e_v, 2) > 12:
+        print("EV_EBITDA:", round(e_v, 2), "[SPÓŁKA_PRZEWARTOSCIOWANA]")
+    elif round(e_v, 2) == 12:
+        print("EV_EBITDA:", round(e_v, 2), "[SPÓŁKA_SPRAWIEDLIWIE_WYCENIONA]")
+    elif round(e_v, 2) < 12:
+        print("EV_EBITDA:", round(e_v, 2), "[SPÓŁKA_NIEDOWARTOSCIOWANA]")
 
 
-def DIVIDEND():
-    DIV = yf.Ticker(WY).info['dividendYield']  # Dividend_yield
-    if DIV is None:
+def dywidenda():
+    print("-------------")
+    print("DANE_DYWIDENDA")
+    print("-------------")
+    div = yf.Ticker(WY).info['dividendYield']  # Dividend_yield
+    if div is None:
         print("SPÓŁKA_NIE_WYPLACA_DYWIDENDY:", "[BRAK]")
-    elif 0.0500 >= round(DIV, 4) >= 0.0200:
-        print("DYWIDENDA_YIELD_%:", round(DIV, 4), "[BEZPIECZNY_YIELD_DYWIDENDY]")
-    elif round(DIV, 4) < 0.0190:
-        print("DYWIDENDA_YIELD_%:", round(DIV, 4), "[NISKI_YIELD_DYWIDENDY]")
-    elif round(DIV, 4) >= 0.0600:
-        print("DYWIDENDA_YIELD_%:", round(DIV, 4), "[WYSOKI_YIELD_SPRAWDZ_BEZPIECZENSTWO]")
+    elif 0.0500 >= round(div, 4) >= 0.0200:
+        print("DYWIDENDA_YIELD_%:", (round(div, 4)*100), "[BEZPIECZNY_YIELD_DYWIDENDY]")
+    elif round(div, 4) < 0.0190:
+        print("DYWIDENDA_YIELD_%:", (round(div, 4)*100), "[NISKI_YIELD_DYWIDENDY]")
+    elif round(div, 4) >= 0.0600:
+        print("DYWIDENDA_YIELD_%:", (round(div, 4)*100), "[WYSOKI_YIELD_SPRAWDZ_BEZPIECZENSTWO]")
 
-    print("SR_5Y_DYWIDEND_YILED:", round(yf.Ticker(WY).info['fiveYearAvgDividendYield'], 4), "%")
+    div_5y = yf.Ticker(WY).info['fiveYearAvgDividendYield']
+    if div_5y is None:
+        print("SR_5Y_DYWIDEND_YILED:", "[Spółka ma krótsza historie dywidendy lub jej nie wyplaca]")
+    elif round(div_5y, 2) >= 0.01:
+        print("SR_5Y_DYWIDEND_YILED:", round(div_5y, 2), "%")
+    else:
+        pass
 
     # Wzrost dywidendy
 
-    PY = yf.Ticker(WY).info['payoutRatio']  # Poziom_wyplaty_zysku
-    if round(PY, 6) <= 0:
+    py = yf.Ticker(WY).info['payoutRatio']  # Poziom_wyplaty_zysku
+    if py is None:
         print("SPÓŁKA_NIE_WYPLACA_ZYSKU:", "[BRAK]")
-    elif round(PY, 2) > 60:
-        print("WYPŁATA_ZYSKU_PROCENT_%:", round(PY, 2), "[SPÓŁKA_WYPLACA_ZA_DUZO_ZYSKOW]")
-    elif round(PY, 2) <= 50:
-        print("WYPŁATA_ZYSKU_PROCENT_%:", round(PY, 2), "[SPÓŁKA_WYPLACA_BEZPIECZNA_ILOSC_ZYSKU]")
+    elif round(py, 6) <= 0.19:
+        print("WYPŁATA_ZYSKU_PROCENT_%:", "[SPÓŁKA_WYPLACA_MAŁO_ZYSKOW]")
+    elif round(py, 2) > 0.60:
+        print("WYPŁATA_ZYSKU_PROCENT_%:", round(py, 2), "[SPÓŁKA_WYPLACA_ZA_DUZO_ZYSKOW]")
+    elif 0.20 <= round(py, 2) <= 0.59:
+        print("WYPŁATA_ZYSKU_PROCENT_%:", round(py, 2), "[SPÓŁKA_WYPLACA_BEZPIECZNA_ILOSC_ZYSKU]")
 
 
-def VALUE():  # GRAHAM ,DCF, FCF, DDM
-    PEG = yf.Ticker(WY).info[
+def wartosc():  # GRAHAM ,DCF, FCF, DDM
+    print("-------------")
+    print("WARTOSC")
+    print("-------------")
+    peg = yf.Ticker(WY).info[
         'pegRatio']  # PEG == 0 (sprawiedliwie wyceniona) PEG > 1 ( przewartosciowana) PEG < 0 (niedowartosciowana
-    if round(PEG, 2) > 1:
-        print("PEG_RATIO:", round(PEG, 2), "[SPÓŁKA_PRZEWARTOSCIOWANA]")
-    elif round(PEG, 2) == 0:
-        print("PEG_RATIO:", round(PEG, 2), "[SPÓŁKA_SPRAWIEDLIWIE_WYCENIONA]")
-    elif round(PEG, 2) < 0:
-        print("PEG_RATIO:", round(PEG, 2), "[SPÓŁKA_NIEDOWARTOSCIOWANA]")
+    if round(peg, 2) > 1:
+        print("PEG_RATIO:", round(peg, 2), "[SPÓŁKA_PRZEWARTOSCIOWANA]")
+    elif round(peg, 2) == 0:
+        print("PEG_RATIO:", round(peg, 2), "[SPÓŁKA_SPRAWIEDLIWIE_WYCENIONA]")
+    elif round(peg, 2) < 0:
+        print("PEG_RATIO:", round(peg, 2), "[SPÓŁKA_NIEDOWARTOSCIOWANA]")
 
     # GRAHAM = (yf.Ticker(WY).info['forwardEps'] * (8.5 + (2 * yf.Ticker(WY).info['earningsGrowth'])))
     # GRAHAM.2.0 = [EPS * (8.5 + 2g) * 4.4] /Y- 20letnia rentownosc obligacji korporacyjnych AAA (WEB SCRAPPING)
@@ -111,125 +128,141 @@ def VALUE():  # GRAHAM ,DCF, FCF, DDM
     # BUFFET
 
 
-def WZROST():  # WZROST,EBITDA,DLUG  #pandas data frame
-    REV_G = yf.Ticker(WY).info['revenueGrowth']
-    print("SR_WZROST_PRZYCHODOW:", REV_G)
-    EPS_G = yf.Ticker(WY).info['earningsGrowth']
-    print("SR_WZROST_ZYSKU:", EPS_G)
+def wzrost():  # WZROST,EBITDA,DLUG  #pandas data frame
+    print("-------------")
+    print("WZROST")
+    print("-------------")
+    rev_g = yf.Ticker(WY).info['revenueGrowth']
+    print("SR_WZROST_PRZYCHODOW:", (round(rev_g, 2)*100), "%")
+    eps_g = yf.Ticker(WY).info['earningsGrowth']
+    print("SR_WZROST_ZYSKU:", (round(eps_g, 2)*100), "%")
 
 
-def DLUG():
-    CR = yf.Ticker(WY).info['currentRatio']
-    if round(CR, 2) >= 2.00:
-        print("SPOLKA_ZLE_ZARZADZA_KAPITALEM:", round(CR, 2), "[Current_Ratio]")
-    elif round(CR, 2) <= 1.00:
-        print("SPOLKA_MOZE_MIEC_PROBLEMY_Z_PLYNNOSCIA:", round(CR, 2), "[Current_Ratio]")
+def dlug():
+    print("-------------")
+    print("ZADLUZENIE_WSKAZNIKI")
+    print("-------------")
+    cr = yf.Ticker(WY).info['currentRatio']
+    if round(cr, 2) >= 2.00:
+        print("Current_Ratio:", round(cr, 2), "[SPOLKA_ZLE_ZARZADZA_KAPITALEM]")
+    elif round(cr, 2) <= 1.00:
+        print("Current_Ratio:", round(cr, 2), "[SPOLKA_MOZE_MIEC_PROBLEMY_Z_PLYNNOSCIA]")
     else:
-        print("SPOLKA_ZDROWO_ZARZADZA_KAPITALEM:", round(CR, 2), "[Current_Ratio]")
+        print("Current_Ratio:", round(cr, 2), "[SPOLKA_ZDROWO_ZARZADZA_KAPITALEM]")
 
-    QR = yf.Ticker(WY).info['quickRatio']
-    if round(QR, 2) >= 1:
-        print("SPOLKA_DOBRZE_ZARZADZA_KAPITALEM:", round(QR, 2), "[Quick_Ratio]")
-    elif round(QR, 2) <= 1:
-        print("SPOLKA_MOZE_MIEC_PROBLEMY_Z_PLYNNOSCIA:", round(QR, 2), "[Quick_Ratio]")
+    qr = yf.Ticker(WY).info['quickRatio']
+    if qr is None:
+        print("Quick_Ratio:", "[Brak danych]")
+    elif round(qr, 2) >= 1:
+        print("Quick_Ratio:", round(qr, 2), "[SPOLKA_DOBRZE_ZARZADZA_KAPITALEM]")
+    elif round(qr, 2) <= 1:
+        print("Quick_Ratio:", round(qr, 2), "[SPOLKA_MOZE_MIEC_PROBLEMY_Z_PLYNNOSCIA]")
 
-    DTE = yf.Ticker(WY).info['debtToEquity']
-    if round(DTE, 2) >= 2:
-        print("SPOLKA_MOZE_MIEC_PROBLEMY_Z_PLYNNOSCIA:", round(DTE, 2), "[Debt_To_Equity")
-    elif round(DTE, 2) <= 1:
-        print("BEZPIECZNY_POZIOM_DLUGU:", round(DTE, 2), "[Debt_To_Equity")
-    else:
-        print("SPOLKA_NA_NEUTRALNYM_POZIOMIE_DLUGU:", round(DTE, 2), "[Debt_To_Equity]")
-
-
-def RENTOWNOSC():
-    ROE = yf.Ticker(WY).info['returnOnEquity']  # ROE
-    if 0.10 <= round(ROE, 2) <= 0.15:
-        print("ZWROT_Z_KAPITALU:", round(ROE, 2), "[ROE_JEST_NA_DOBRYM_POZIOMIE]")
-    elif round(ROE, 2) >= 0.20:
-        print("ZWROT_Z_KAPITALU:", round(ROE, 2), "[ROE_JEST_WYSOKIE]")
-    elif round(ROE, 2) <= 0.09:
-        print("ZWROT_Z_KAPITALU:", round(ROE, 2), "[ROE_JEST_NISKIE]")
-
-    ROA = yf.Ticker(WY).info['returnOnAssets']  # ROA
-    if 0.05 <= round(ROA, 2) <= 0.19:
-        print("ZWROT_Z_AKTYWOW:", round(ROA, 2), "[ROA_JEST_DOBRYM_POZIOMIE]")
-    elif round(ROA, 2) >= 0.20:
-        print("ZWROT_Z_AKTYWOW:", round(ROA, 2), "[ROA_JEST_WYSOKIE]")
-    elif round(ROA, 2) <= 0.04:
-        print("ZWROT_Z_AKTYWOW:", round(ROA, 2), "[ROA_JEST_NISKIE]")
-
-    GM = yf.Ticker(WY).info['grossMargins']  # MARŻA_ZYSKU_Netto
-    if 0.50 <= round(GM, 2) <= 0.70:
-        print("MARZA_PRZYCHODU_%:", round(GM, 2), "[DOBRA_MARZA_PRZYCHODU]")
-    elif 0.10 <= round(GM, 2) <= 0.50:
-        print("MARZA_PRZYCHODU_%:", round(GM, 2), "[NEUTRALNA_MARZA_PRZYCHODU]")
-    elif round(GM, 2) >= 0.71:
-        print("MARZA_PRZYCHODU_%:", round(GM, 2), "[BARDZO_WYSOKA_MARZA_PRZYCHODU]")
-    elif round(GM, 2) <= 0.09:
-        print("MARZA_PRZYCHODU_%:", round(GM, 2), "[BARDZO_NISKA_MARZA_PRZYCHODU]")
-
-    OM = yf.Ticker(WY).info['operatingMargins']  # MARŻA_ZYSKU_Netto
-    if round(OM, 2) >= 0.14 and round(GM, 2) <= 0.20:
-        print("MARŻA_OPERACYJNA_%:", round(OM, 2), "[DOBRA_MARŻA_OPERACYJNA_]")
-    elif 0.10 <= round(OM, 2) <= 0.13:
-        print("MARŻA_OPERACYJNA_%:", round(OM, 2), "[NEUTRALNA_MARŻA_OPERACYJNA_]")
-    elif round(OM, 2) >= 0.21:
-        print("MARŻA_OPERACYJNA_%:", round(OM, 2), "[BARDZO_WYSOKA_MARŻA_OPERACYJNA]")
-    elif round(OM, 2) <= 0.09:
-        print("MARŻA_OPERACYJNA_%:", round(OM, 2), "[BARDZO_NISKA_MARŻA_OPERACYJNA]")
-
-    PM = yf.Ticker(WY).info['profitMargins']  # MARŻA_ZYSKU_Netto
-    if 0.14 <= round(PM, 2) <= 0.20:
-        print("MARŻA_ZYSKU_NETTO_%:", round(PM, 2), "[DOBRA_MARŻA_ZYSKU_NETTO]")
-    elif 0.10 <= round(PM, 2) <= 0.13:
-        print("MARŻA_ZYSKU_NETTO_%:", round(PM, 2), "[NEUTRALNA_MARŻA_ZYSKU_NETTO]")
-    elif round(PM, 2) >= 0.21:
-        print("MARŻA_ZYSKU_NETTO_%:", round(PM, 2), "[BARDZO_WYSOKA_MARŻA_ZYSKU_NETTO")
-    elif round(PM, 2) <= 0.09:
-        print("MARŻA_ZYSKU_NETTO_%:", round(PM, 2), "[BARDZO_NISKA_MARŻA_ZYSKU_NETTO]")
+    dte = yf.Ticker(WY).info['debtToEquity']
+    if dte is None:
+        print("Debt_To_Equity:", "[Brak_danych]")
+    elif 1 <= round(dte, 2) < 1.5:
+        print("Debt_To_Equity:", round(dte, 2), "[SPOLKA_NA_NEUTRALNYM_POZIOMIE_DLUGU]")
+    elif round(dte, 2) >= 2:
+        print("Debt_To_Equity:", round(dte, 2), "[SPOLKA_MOZE_MIEC_PROBLEMY_Z_PLYNNOSCIA]")
+    elif round(dte, 2) < 1:
+        print("Debt_To_Equity:", round(dte, 2), "[BEZPIECZNY_POZIOM_DLUGU]")
 
 
-def ZWROT():
+def rentownosc():
+    print("-------------")
+    print("RENTOWNOSC_WSKAZNIKI")
+    print("-------------")
+    roe = yf.Ticker(WY).info['returnOnEquity']  # ROE
+    if 0.10 <= round(roe, 2) <= 0.15:
+        print("ZWROT_Z_KAPITALU:", round(roe, 2), "[ROE_JEST_NA_DOBRYM_POZIOMIE]")
+    elif round(roe, 2) >= 0.20:
+        print("ZWROT_Z_KAPITALU:", round(roe, 2), "[ROE_JEST_WYSOKIE]")
+    elif round(roe, 2) <= 0.09:
+        print("ZWROT_Z_KAPITALU:", round(roe, 2), "[ROE_JEST_NISKIE]")
+
+    roa = yf.Ticker(WY).info['returnOnAssets']  # ROA
+    if 0.05 <= round(roa, 2) <= 0.19:
+        print("ZWROT_Z_AKTYWOW:", round(roa, 2), "[ROA_JEST_DOBRYM_POZIOMIE]")
+    elif round(roa, 2) >= 0.20:
+        print("ZWROT_Z_AKTYWOW:", round(roa, 2), "[ROA_JEST_WYSOKIE]")
+    elif round(roa, 2) <= 0.04:
+        print("ZWROT_Z_AKTYWOW:", round(roa, 2), "[ROA_JEST_NISKIE]")
+
+    gm = yf.Ticker(WY).info['grossMargins']  # MARŻA_PRZYCHODU
+    if 0.50 <= round(gm, 2) <= 0.70:
+        print("MARZA_PRZYCHODU_%:", round(gm, 2), "[DOBRA_MARZA_PRZYCHODU]")
+    elif 0.10 <= round(gm, 2) <= 0.50:
+        print("MARZA_PRZYCHODU_%:", round(gm, 2), "[NEUTRALNA_MARZA_PRZYCHODU]")
+    elif round(gm, 2) >= 0.71:
+        print("MARZA_PRZYCHODU_%:", round(gm, 2), "[BARDZO_WYSOKA_MARZA_PRZYCHODU]")
+    elif round(gm, 2) <= 0.09:
+        print("MARZA_PRZYCHODU_%:", round(gm, 2), "[BARDZO_NISKA_MARZA_PRZYCHODU]")
+
+    om = yf.Ticker(WY).info['operatingMargins']  # MARŻA_ZYSKU_OPERACYJNEGO
+    if 0.14 <= round(om, 2) <= 0.20:
+        print("MARŻA_OPERACYJNA_%:", round(om, 2), "[DOBRA_MARŻA_OPERACYJNA_]")
+    elif 0.10 <= round(om, 2) <= 0.13:
+        print("MARŻA_OPERACYJNA_%:", round(om, 2), "[NEUTRALNA_MARŻA_OPERACYJNA_]")
+    elif round(om, 2) >= 0.21:
+        print("MARŻA_OPERACYJNA_%:", round(om, 2), "[BARDZO_WYSOKA_MARŻA_OPERACYJNA]")
+    elif round(om, 2) <= 0.09:
+        print("MARŻA_OPERACYJNA_%:", round(om, 2), "[BARDZO_NISKA_MARŻA_OPERACYJNA]")
+
+    pm = yf.Ticker(WY).info['profitMargins']  # MARŻA_ZYSKU_Netto
+    if 0.14 <= round(pm, 2) <= 0.20:
+        print("MARŻA_ZYSKU_NETTO_%:", round(pm, 2), "[DOBRA_MARŻA_ZYSKU_NETTO]")
+    elif 0.10 <= round(pm, 2) <= 0.13:
+        print("MARŻA_ZYSKU_NETTO_%:", round(pm, 2), "[NEUTRALNA_MARŻA_ZYSKU_NETTO]")
+    elif round(pm, 2) >= 0.21:
+        print("MARŻA_ZYSKU_NETTO_%:", round(pm, 2), "[BARDZO_WYSOKA_MARŻA_ZYSKU_NETTO]")
+    elif round(pm, 2) <= 0.09:
+        print("MARŻA_ZYSKU_NETTO_%:", round(pm, 2), "[BARDZO_NISKA_MARŻA_ZYSKU_NETTO]")
+
+
+def zwrot():
     print("-------------")
     print("ZWROT")
     print("-------------")
     # -----
-    R_YTD = yf.Ticker(WY).info['ytdReturn']  # Zwrot od poczatku roku
-    print("ZWROT_OD_POCZATKU_ROKU:", R_YTD)
+    r_ytd = yf.Ticker(WY).info['ytdReturn']  # Zwrot od poczatku roku
+    print("ZWROT_OD_POCZATKU_ROKU:", r_ytd)
     # -----
-    R_5Y = yf.Ticker(WY).info['fiveYearAverageReturn']  # Zwrot z 5 lat sredniorocznie
-    print("ZWROT_Z_OSTATNICH_5_LAT_SR_ROCZNIE:", R_5Y)
+    r_5y = yf.Ticker(WY).info['fiveYearAverageReturn']  # Zwrot z 5 lat sredniorocznie
+    print("ZWROT_Z_OSTATNICH_5_LAT_SR_ROCZNIE:", r_5y)
     # -----
 
 
-def FORCAST(): # ML
+def prognoza():  # ML
     pass
 
 
-def HOLDERZY():
+def akcjonariat():
     print("-----------------------------------------")
-    print("HOLDERZY")
+    print("AKCJONARIAT")
     print("------------------------------------------------------------------")
-    HOLD = yf.Ticker(WY).institutional_holders  # Holderzy
-    print(HOLD)
+    hold = yf.Ticker(WY).institutional_holders  # Holderzy
+    print(hold)
 
 
-def REKOMENDACJE_ANALITYKOW():
-    SR_CENA_DOCELOWA = yf.Ticker(WY).info['targetMeanPrice']
-    JK = round(yf.Ticker(WY).info['currentPrice'] / SR_CENA_DOCELOWA, 2)
-    print("ŚREDNIA_CENA_DOCELOWA_ANALITYKOW:", SR_CENA_DOCELOWA, )
-    print("AKTUALNA CENA / SREDNIA_CENA_DOCELOWA_ANALITYKOW:", JK, ",", "DO_CENY_DOCELOWEJ:", round((1 - JK) * 100, 2),
+def rekomendacje_analitykow():
+    sr_cena_docelowa = yf.Ticker(WY).info['targetMeanPrice']
+    jk = round(yf.Ticker(WY).info['currentPrice'] / sr_cena_docelowa, 2)
+    print("ŚREDNIA_CENA_DOCELOWA_ANALITYKOW:", sr_cena_docelowa, )
+    print("AKTUALNA CENA / SREDNIA_CENA_DOCELOWA_ANALITYKOW:", jk, ",", "DO_CENY_DOCELOWEJ:", round((1 - jk) * 100, 2),
           "%")
-    REKO = yf.Ticker(WY).recommendations
-    print("REKOMENDACJE_ANALITYKOW:", REKO)
+    reko = yf.Ticker(WY).recommendations
+    print("REKOMENDACJE_ANALITYKOW:", reko)
 
 
-def ZOBACZ_WYKRES():
+def wykres():
     pass
 
 
-print(RENTOWNOSC())
+print(wycena_wskaznikowa())
+print(dlug())
+print(dywidenda())
+print(wzrost())
 
 # Pętla wybór programu z listy
 
