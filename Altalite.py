@@ -15,7 +15,53 @@ WY = input("Wpisz ticker spolki:")
 
 
 def start():
-    pass
+    majo = [
+        "1.INFORMACJE_O_SPOLCE",
+        "2.PODSTAWOWE_DANE",
+        "3.WYCENA_WSKAZNIKOWA",
+        "4.DYWIDENDA",
+        "5.WYCENA_MODELOWA",
+        "6.WZROST",
+        "7.ZADLUZENIE",
+        "8.RENTOWNOSC",
+        "9.ZWROT",
+        "10.PROGNOZA",
+        "11.AKCJONARIAT",
+        "12.WYKRES",
+        "13.REKOMENDACJE_ANALITYKOW"
+    ]
+    for i in majo:
+        print(i)
+    print("---------------------------------------------------------------------------------")
+    x = input("Wybierz_program:").upper()
+    if x == "INFORMACJE_O_SPOLCE":
+        return info()
+    elif x == "PODSTAWOWE_DANE":
+        return meta_dane()
+    elif x == "WYCENA_WSKAZNIKOWA":
+        return wycena_wskaznikowa()
+    elif x == "DYWIDENDA":
+        return dywidenda()
+    elif x == "WYCENA_MODELOWA":
+        return wartosc()
+    elif x == "WZROST":
+        return wzrost()
+    elif x == "ZADLUZENIE":
+        return dlug()
+    elif x == "RENTOWNOSC":
+        return rentownosc()
+    elif x == "ZWROT" or "9":
+        return zwrot()
+    elif x == "PROGNOZA" or "10":
+        return prognoza()
+    elif x == "AKCJONARIAT" or "11":
+        return akcjonariat()
+    elif x == "WYKRES" or "12":
+        return wykres()
+    elif x == "REKOMENDACJE_ANALITKOW" or "13":
+        return rekomendacje_analitykow()
+    else:
+        return start()
 
 
 def info():  # Informacje_o_spolce
