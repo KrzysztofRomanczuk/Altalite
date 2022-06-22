@@ -7,7 +7,11 @@
 
 import yfinance as yf  # import_danych_YahooFinance
 
-WY = input("WPISZ_TICKER_SPOLKI:")
+print("---------------------------------------------------------------------------------")
+print("Witaj w aplikacji Altalite!\n"
+      "Wpisz poniżej ticker spolki, ktore cie interesuje, a ja przeanalizuje ja dla ciebie")
+print("---------------------------------------------------------------------------------")
+WY = input("Wpisz ticker spolki:")
 
 
 def start():
@@ -80,11 +84,13 @@ def dywidenda():
     if div is None:
         print("SPÓŁKA_NIE_WYPLACA_DYWIDENDY:", "[BRAK]")
     elif 0.0500 >= round(div, 4) >= 0.0200:
-        print("DYWIDENDA_YIELD_%:", (round(div, 4)*100), "[BEZPIECZNY_YIELD_DYWIDENDY]")
+        print("DYWIDENDA_YIELD_%:", (round(div, 4) * 100), "[BEZPIECZNY_YIELD_DYWIDENDY]")
     elif round(div, 4) < 0.0190:
-        print("DYWIDENDA_YIELD_%:", (round(div, 4)*100), "[NISKI_YIELD_DYWIDENDY]")
+        print("DYWIDENDA_YIELD_%:", (round(div, 4) * 100), "[NISKI_YIELD_DYWIDENDY]")
     elif round(div, 4) >= 0.0600:
-        print("DYWIDENDA_YIELD_%:", (round(div, 4)*100), "[WYSOKI_YIELD_SPRAWDZ_BEZPIECZENSTWO]")
+        print("DYWIDENDA_YIELD_%:", (round(div, 4) * 100), "[WYSOKI_YIELD_SPRAWDZ_BEZPIECZENSTWO]")
+    else:
+        pass
 
     div_5y = yf.Ticker(WY).info['fiveYearAvgDividendYield']
     if div_5y is None:
@@ -133,9 +139,9 @@ def wzrost():  # WZROST,EBITDA,DLUG  #pandas data frame
     print("WZROST")
     print("-------------")
     rev_g = yf.Ticker(WY).info['revenueGrowth']
-    print("SR_WZROST_PRZYCHODOW:", (round(rev_g, 2)*100), "%")
+    print("SR_WZROST_PRZYCHODOW:", (round(rev_g, 2) * 100), "%")
     eps_g = yf.Ticker(WY).info['earningsGrowth']
-    print("SR_WZROST_ZYSKU:", (round(eps_g, 2)*100), "%")
+    print("SR_WZROST_ZYSKU:", (round(eps_g, 2) * 100), "%")
 
 
 def dlug():
@@ -259,10 +265,7 @@ def wykres():
     pass
 
 
-print(wycena_wskaznikowa())
-print(dlug())
-print(dywidenda())
-print(wzrost())
+print(start())
 
 # Pętla wybór programu z listy
 
