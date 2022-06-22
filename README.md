@@ -1,6 +1,8 @@
 # Altalite
 Program do wyceny przedsiębiorstw notowanych w USA za pomocą wpisania tickera akcji
+
 Funkcje:
+
 0. Podstawowe dane na temat firmy
 1. Wycena wskaźnikowa wyceny przedsiębiorstwa 
 3. Dane zwrotów z przeszłosci
