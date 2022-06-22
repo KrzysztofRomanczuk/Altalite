@@ -7,6 +7,7 @@
 
 import yfinance as yf  # import_danych_YahooFinance
 
+
 print("---------------------------------------------------------------------------------")
 print("Witaj w aplikacji Altalite!\n"
       "Wpisz poniżej ticker spolki, ktore cie interesuje, a ja przeanalizuje ja dla ciebie")
@@ -50,18 +51,18 @@ def start():
         return dlug()
     elif x == "RENTOWNOSC":
         return rentownosc()
-    elif x == "ZWROT" or "9":
+    elif x == "ZWROT":
         return zwrot()
-    elif x == "PROGNOZA" or "10":
+    elif x == "PROGNOZA":
         return prognoza()
-    elif x == "AKCJONARIAT" or "11":
+    elif x == "AKCJONARIAT":
         return akcjonariat()
-    elif x == "WYKRES" or "12":
+    elif x == "WYKRES":
         return wykres()
-    elif x == "REKOMENDACJE_ANALITKOW" or "13":
+    elif x == "REKOMENDACJE_ANALITKOW":
         return rekomendacje_analitykow()
     else:
-        return start()
+        print(start())
 
 
 def info():  # Informacje_o_spolce
@@ -311,9 +312,17 @@ def wykres():
     pass
 
 
+def koniec():
+    xx = input("Jeśli chcesz sprawdzić inną funkcje napisz tak, jesli nie napisz nie:",).upper()
+    if xx == "TAK":
+        return start()
+    elif xx == "NIE":
+        print("Do zobaczenia!")
+    else:
+        print("Coś jest nie tak")
+
+
 print(start())
-
-# Pętla wybór programu z listy
-
+print(koniec())
 
 # punktacja wyceny wskaźnikowej
