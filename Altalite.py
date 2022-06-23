@@ -7,7 +7,6 @@
 
 import yfinance as yf  # import_danych_YahooFinance
 
-
 print("---------------------------------------------------------------------------------")
 print("Witaj w aplikacji Altalite!\n"
       "Wpisz poniżej ticker spolki, ktore cie interesuje, a ja przeanalizuje ja dla ciebie")
@@ -35,32 +34,35 @@ def start():
         print(i)
     print("---------------------------------------------------------------------------------")
     x = input("Wybierz_program:").upper()
+    print("---------------------------------------------------------------------------------")
+
     if x == "INFORMACJE_O_SPOLCE":
-        return info()
+        return info(), koniec()
+
     elif x == "PODSTAWOWE_DANE":
-        return meta_dane()
+        return meta_dane(), koniec()
     elif x == "WYCENA_WSKAZNIKOWA":
-        return wycena_wskaznikowa()
+        return wycena_wskaznikowa(), koniec()
     elif x == "DYWIDENDA":
-        return dywidenda()
+        return dywidenda(), koniec()
     elif x == "WYCENA_MODELOWA":
-        return wartosc()
+        return wartosc(), koniec()
     elif x == "WZROST":
-        return wzrost()
+        return wzrost(), koniec()
     elif x == "ZADLUZENIE":
-        return dlug()
+        return dlug(), koniec()
     elif x == "RENTOWNOSC":
-        return rentownosc()
+        return rentownosc(), koniec()
     elif x == "ZWROT":
-        return zwrot()
+        return zwrot(), koniec()
     elif x == "PROGNOZA":
-        return prognoza()
+        return prognoza(), koniec()
     elif x == "AKCJONARIAT":
-        return akcjonariat()
+        return akcjonariat(), koniec()
     elif x == "WYKRES":
-        return wykres()
+        return wykres(), koniec()
     elif x == "REKOMENDACJE_ANALITKOW":
-        return rekomendacje_analitykow()
+        return rekomendacje_analitykow(), koniec()
     else:
         print(start())
 
@@ -323,6 +325,3 @@ def koniec():
 
 
 print(start())
-print(koniec())
-
-# punktacja wyceny wskaźnikowej
