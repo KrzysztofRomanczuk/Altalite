@@ -61,10 +61,8 @@ def start():
         return akcjonariat(), koniec()
     elif x == "WYKRES":
         return wykres(), koniec()
-    elif x == "REKOMENDACJE_ANALITKOW":
+    elif x == "REKOMENDACJE_ANALITYKOW":
         return rekomendacje_analitykow(), koniec()
-    else:
-        print(start())
 
 
 def info():  # Informacje_o_spolce
@@ -138,16 +136,12 @@ def dywidenda():
         print("DYWIDENDA_YIELD_%:", (round(div, 4) * 100), "[NISKI_YIELD_DYWIDENDY]")
     elif round(div, 4) >= 0.0600:
         print("DYWIDENDA_YIELD_%:", (round(div, 4) * 100), "[WYSOKI_YIELD_SPRAWDZ_BEZPIECZENSTWO]")
-    else:
-        pass
 
     div_5y = yf.Ticker(WY).info['fiveYearAvgDividendYield']
     if div_5y is None:
         print("SR_5Y_DYWIDEND_YILED:", "[Spółka ma krótsza historie dywidendy lub jej nie wyplaca]")
     elif round(div_5y, 2) >= 0.01:
         print("SR_5Y_DYWIDEND_YILED:", round(div_5y, 2), "%")
-    else:
-        pass
 
     # Wzrost dywidendy
 
@@ -155,7 +149,7 @@ def dywidenda():
     if py is None:
         print("SPÓŁKA_NIE_WYPLACA_ZYSKU:", "[BRAK]")
     elif round(py, 6) <= 0.19:
-        print("WYPŁATA_ZYSKU_PROCENT_%:", "[SPÓŁKA_WYPLACA_MAŁO_ZYSKOW]")
+        print("WYPŁATA_ZYSKU_PROCENT_%:", round(py, 2), "[SPÓŁKA_WYPLACA_MAŁO_ZYSKOW]")
     elif round(py, 2) > 0.60:
         print("WYPŁATA_ZYSKU_PROCENT_%:", round(py, 2), "[SPÓŁKA_WYPLACA_ZA_DUZO_ZYSKOW]")
     elif 0.20 <= round(py, 2) <= 0.59:
@@ -193,7 +187,7 @@ def wzrost():  # WZROST,EBITDA,DLUG  #pandas data frame
     print("SR_WZROST_ZYSKU:", (round(eps_g, 2) * 100), "%")
 
 
-def dlug():
+def dlug():  # dodac aktywa
     print("-------------")
     print("ZADLUZENIE_WSKAZNIKI")
     print("-------------")
@@ -304,6 +298,8 @@ def rekomendacje_analitykow():
     sr_cena_docelowa = yf.Ticker(WY).info['targetMeanPrice']
     jk = round(yf.Ticker(WY).info['currentPrice'] / sr_cena_docelowa, 2)
     print("ŚREDNIA_CENA_DOCELOWA_ANALITYKOW:", sr_cena_docelowa, )
+    cena = yf.Ticker(WY).info['currentPrice']  # cena_akcji
+    print("CENA_AKCJI_W_USD:", cena)
     print("AKTUALNA CENA / SREDNIA_CENA_DOCELOWA_ANALITYKOW:", jk, ",", "DO_CENY_DOCELOWEJ:", round((1 - jk) * 100, 2),
           "%")
     reko = yf.Ticker(WY).recommendations
