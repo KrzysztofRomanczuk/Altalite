@@ -4,8 +4,11 @@
 # import investpy.bonds
 # import numpy
 # import plotly.express as px
-
+import requests
+from bs4 import BeautifulSoup
+import collections
 import yfinance as yf  # import_danych_YahooFinance
+collections.Callable = collections.abc.Callable
 
 print("---------------------------------------------------------------------------------")
 print("Witaj w aplikacji Altalite!\n"
@@ -15,6 +18,7 @@ WY = input("Wpisz ticker spolki:")
 
 
 def start():
+
     majo = [
         "1.INFORMACJE_O_SPOLCE",
         "2.PODSTAWOWE_DANE",
@@ -169,8 +173,23 @@ def wartosc():  # GRAHAM ,DCF, FCF, DDM
     elif round(peg, 2) < 0:
         print("PEG_RATIO:", round(peg, 2), "[SPÓŁKA_NIEDOWARTOSCIOWANA]")
 
-    # GRAHAM = (yf.Ticker(WY).info['forwardEps'] * (8.5 + (2 * yf.Ticker(WY).info['earningsGrowth'])))
-    # GRAHAM.2.0 = [EPS * (8.5 + 2g) * 4.4] /Y- 20letnia rentownosc obligacji korporacyjnych AAA (WEB SCRAPPING)
+    soup = BeautifulSoup(requests.get("https://fred.stlouisfed.org/series/AAA").text, 'lxml')  # Web scrapping
+    strona = soup.find('span', class_='series-meta-observation-value').get_text()
+    hom = float(strona)
+
+    graham = (round(yf.Ticker(WY).info['trailingEps'], 2) *
+              (8.5 + (2 * round(yf.Ticker(WY).info['earningsGrowth'], 2))) * 4.4) / hom
+    graham1 = round(yf.Ticker(WY).info['currentPrice'], 2)/round(graham, 2)
+    gh = round(graham1, 2)
+    if gh == 1:
+        print("MODEL_GRAHAMA:", gh, "[SPOLKA_JEST_WYCENIONA_SPRAWIEDLIWIE]")
+    elif 1.1 < gh < 1.5:
+        print("MODEL_GRAHAMA:", gh, "[SPOLKA_JEST_WYCENIONA_NEUTRALNIE]")
+    elif gh > 1.5:
+        print("MODEL_GRAHAMA:", gh, "[SPOLKA_JEST_PRZEWARTOSCIOWANA]")
+    elif gh < 1:
+        print("MODEL_GRAHAMA:", gh, "[SPOLKA_JEST_NIEDOWARTOSCIOWANA]")
+
     # DDM
     # DCF
     # FCF
