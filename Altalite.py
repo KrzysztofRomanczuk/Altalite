@@ -3,6 +3,8 @@
 # import reuterspy
 # import investpy.bonds
 # import numpy
+
+import plotly.graph_objects as go
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
@@ -329,10 +331,14 @@ def rekomendacje_analitykow():
     print("REKOMENDACJE_ANALITYKOW:", reko)
 
 
-def wykres(): # wyswietlanie wykresu 5lat z porownaniem z benchmarkiem S&P
-    ticker = yf.Ticker(WY)
-    aapl_df = ticker.history(period="5y")
-    aapl_df['Close'].plot(title="APPLE's stock price")
+def wykres():
+    wykres = yf.Ticker(WY)
+    hist = wykres.history(period='5y')
+    hist.head()
+    fig = go.Figure(data=go.Scatter(x=hist.index, y=hist['Close'], mode='lines'))
+    fig.show()
+
+
 
 
 def koniec():
@@ -343,18 +349,6 @@ def koniec():
         print("Do zobaczenia!")
     else:
         print("Coś jest nie tak")
-
-
-def kryteria():
-    if round(yf.Ticker(WY).info['trailingPE'], 2) < 20 and round(yf.Ticker(WY).info['dividendYield'], 2) > 0.02 and \
-            round(yf.Ticker(WY).info['payoutRatio'], 2) < 0.60 and \
-            round(yf.Ticker(WY).info['debtToEquity'], 2) < 1 and \
-            yf.Ticker(WY).info['marketCap'] >= 10000000000 \
-            and round(yf.Ticker(WY).info['returnOnEquity'], 2) > 0.10:
-        print("Spolka iscie dywidendowa")
-    else:
-        print("nima")
-
 
 def sp():
     payload = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
