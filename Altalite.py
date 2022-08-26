@@ -3,11 +3,12 @@
 # import reuterspy
 # import investpy.bonds
 # import numpy
-# import plotly.express as px
+import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 import collections
-import yfinance as yf  # import_danych_YahooFinance
+import yfinance as yf
+
 collections.Callable = collections.abc.Callable
 
 print("---------------------------------------------------------------------------------")
@@ -18,7 +19,6 @@ WY = input("Wpisz ticker spolki:")
 
 
 def start():
-
     majo = [
         "1.INFORMACJE_O_SPOLCE",
         "2.PODSTAWOWE_DANE",
@@ -32,7 +32,8 @@ def start():
         "10.PROGNOZA",
         "11.AKCJONARIAT",
         "12.WYKRES",
-        "13.REKOMENDACJE_ANALITYKOW"
+        "13.REKOMENDACJE_ANALITYKOW",
+        "14.KRYTERIA"
     ]
     for i in majo:
         print(i)
@@ -67,6 +68,8 @@ def start():
         return wykres(), koniec()
     elif x == "REKOMENDACJE_ANALITYKOW":
         return rekomendacje_analitykow(), koniec()
+    elif x == "KRYTERIA":
+        return sp(), koniec()
 
 
 def info():  # Informacje_o_spolce
@@ -160,7 +163,7 @@ def dywidenda():
         print("WYPŁATA_ZYSKU_PROCENT_%:", round(py, 2), "[SPÓŁKA_WYPLACA_BEZPIECZNA_ILOSC_ZYSKU]")
 
 
-def wartosc():  # GRAHAM ,DCF, FCF, DDM
+def wartosc():
     print("-------------")
     print("WARTOSC")
     print("-------------")
@@ -179,7 +182,7 @@ def wartosc():  # GRAHAM ,DCF, FCF, DDM
 
     graham = (round(yf.Ticker(WY).info['trailingEps'], 2) *
               (8.5 + (2 * round(yf.Ticker(WY).info['earningsGrowth'], 2))) * 4.4) / hom
-    graham1 = round(yf.Ticker(WY).info['currentPrice'], 2)/round(graham, 2)
+    graham1 = round(yf.Ticker(WY).info['currentPrice'], 2) / round(graham, 2)
     gh = round(graham1, 2)
     if gh == 1:
         print("MODEL_GRAHAMA:", gh, "[SPOLKA_JEST_WYCENIONA_SPRAWIEDLIWIE]")
@@ -190,10 +193,9 @@ def wartosc():  # GRAHAM ,DCF, FCF, DDM
     elif gh < 1:
         print("MODEL_GRAHAMA:", gh, "[SPOLKA_JEST_NIEDOWARTOSCIOWANA]")
 
-    # DDM
-    # DCF
-    # FCF
-    # BUFFET
+    # DDM nie wiem czy bedzie potrzebny
+    # DCF to bedzie osobny modul
+    # FCF to bedzie osobny modul
 
 
 def wzrost():  # WZROST,EBITDA,DLUG  #pandas data frame
@@ -205,8 +207,10 @@ def wzrost():  # WZROST,EBITDA,DLUG  #pandas data frame
     eps_g = yf.Ticker(WY).info['earningsGrowth']
     print("SR_WZROST_ZYSKU:", (round(eps_g, 2) * 100), "%")
 
+    # WZROST,EBITDA, DLUG  #pandas data frame
 
-def dlug():  # dodac aktywa
+
+def dlug():
     print("-------------")
     print("ZADLUZENIE_WSKAZNIKI")
     print("-------------")
@@ -229,11 +233,11 @@ def dlug():  # dodac aktywa
     dte = yf.Ticker(WY).info['debtToEquity']
     if dte is None:
         print("Debt_To_Equity:", "[Brak_danych]")
-    elif 1 <= round(dte, 2) < 1.5:
+    elif 1 <= round(dte, 2) < 150.00:
         print("Debt_To_Equity:", round(dte, 2), "[SPOLKA_NA_NEUTRALNYM_POZIOMIE_DLUGU]")
-    elif round(dte, 2) >= 2:
+    elif round(dte, 2) >= 100.00:
         print("Debt_To_Equity:", round(dte, 2), "[SPOLKA_MOZE_MIEC_PROBLEMY_Z_PLYNNOSCIA]")
-    elif round(dte, 2) < 1:
+    elif round(dte, 2) < 100.00:
         print("Debt_To_Equity:", round(dte, 2), "[BEZPIECZNY_POZIOM_DLUGU]")
 
 
@@ -301,7 +305,7 @@ def zwrot():
     # -----
 
 
-def prognoza():  # ML
+def prognoza():  # ML prognoza akcji na podstawie srednich zwrotow
     pass
 
 
@@ -325,12 +329,14 @@ def rekomendacje_analitykow():
     print("REKOMENDACJE_ANALITYKOW:", reko)
 
 
-def wykres():
-    pass
+def wykres(): # wyswietlanie wykresu 5lat z porownaniem z benchmarkiem S&P
+    ticker = yf.Ticker(WY)
+    aapl_df = ticker.history(period="5y")
+    aapl_df['Close'].plot(title="APPLE's stock price")
 
 
 def koniec():
-    xx = input("Jeśli chcesz sprawdzić inną funkcje napisz tak, jesli nie napisz nie:",).upper()
+    xx = input("Jeśli chcesz sprawdzić inną funkcje napisz tak, jesli nie napisz nie:", ).upper()
     if xx == "TAK":
         return start()
     elif xx == "NIE":
@@ -339,4 +345,38 @@ def koniec():
         print("Coś jest nie tak")
 
 
+def kryteria():
+    if round(yf.Ticker(WY).info['trailingPE'], 2) < 20 and round(yf.Ticker(WY).info['dividendYield'], 2) > 0.02 and \
+            round(yf.Ticker(WY).info['payoutRatio'], 2) < 0.60 and \
+            round(yf.Ticker(WY).info['debtToEquity'], 2) < 1 and \
+            yf.Ticker(WY).info['marketCap'] >= 10000000000 \
+            and round(yf.Ticker(WY).info['returnOnEquity'], 2) > 0.10:
+        print("Spolka iscie dywidendowa")
+    else:
+        print("nima")
+
+
+def sp():
+    payload = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
+    first_table = payload[0]
+    df = first_table
+    df.head()
+    symbols = df['Symbol'].values.tolist()
+
+    for ticker in symbols:
+        if round(yf.Ticker(ticker).info['trailingPE'], 2) <= 20.00 and \
+                round(yf.Ticker(ticker).info['earningsGrowth'], 2) >= 0.15 and \
+                round(yf.Ticker(ticker).info['revenueGrowth'], 2) >= 0.05 and \
+                round(yf.Ticker(ticker).info['dividendYield'], 2) >= 0.03 and \
+                round(yf.Ticker(ticker).info['payoutRatio'], 2) <= 0.50 and \
+                round(yf.Ticker(ticker).info['debtToEquity'], 2) <= 150.00 and \
+                (yf.Ticker(ticker).info['marketCap'] >= 10000000000) \
+                and round(yf.Ticker(ticker).info['returnOnEquity'], 2) > 0.10:
+
+            print(yf.Ticker(ticker).info['shortName'])
+
+
+
+
 print(start())
+# Stworzyc program w django lub GUI
