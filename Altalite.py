@@ -1,8 +1,3 @@
-# import googlefinance
-# import investpy.stocks
-# import reuterspy
-# import investpy.bonds
-# import numpy
 
 import plotly.graph_objects as go
 import pandas as pd
@@ -152,7 +147,14 @@ def dywidenda():
     elif round(div_5y, 2) >= 0.01:
         print("SR_5Y_DYWIDEND_YILED:", round(div_5y, 2), "%")
 
-    # Wzrost dywidendy
+    # Wzrost dywidendy key-metrics-table__table__37fba
+    #soup1 = BeautifulSoup(requests.get("https://www.reuters.com/markets/companies/AAPL.OQ/key-metrics/growth").text, 'lxml')  # Web scrapping
+   # strona1 = soup1.find('span', 'data-testid="Text"', class_= 'key-metrics-table__table__37fba')
+    #hom1 = strona1
+    #print(hom1)
+
+
+
 
     py = yf.Ticker(WY).info['payoutRatio']  # Poziom_wyplaty_zysku
     if py is None:
@@ -169,18 +171,18 @@ def wartosc():
     print("-------------")
     print("WARTOSC")
     print("-------------")
-    peg = yf.Ticker(WY).info[
-        'pegRatio']  # PEG == 0 (sprawiedliwie wyceniona) PEG > 1 ( przewartosciowana) PEG < 0 (niedowartosciowana
-    if round(peg, 2) > 1:
+    peg = yf.Ticker(WY).info['pegRatio']
+    if round(peg, 2) > 1.00:
         print("PEG_RATIO:", round(peg, 2), "[SPÓŁKA_PRZEWARTOSCIOWANA]")
-    elif round(peg, 2) == 0:
+    elif round(peg, 2) == 1.00:
         print("PEG_RATIO:", round(peg, 2), "[SPÓŁKA_SPRAWIEDLIWIE_WYCENIONA]")
-    elif round(peg, 2) < 0:
+    elif round(peg, 2) < 1.00:
         print("PEG_RATIO:", round(peg, 2), "[SPÓŁKA_NIEDOWARTOSCIOWANA]")
 
     soup = BeautifulSoup(requests.get("https://fred.stlouisfed.org/series/AAA").text, 'lxml')  # Web scrapping
     strona = soup.find('span', class_='series-meta-observation-value').get_text()
     hom = float(strona)
+
 
     graham = (round(yf.Ticker(WY).info['trailingEps'], 2) *
               (8.5 + (2 * round(yf.Ticker(WY).info['earningsGrowth'], 2))) * 4.4) / hom
@@ -358,17 +360,15 @@ def sp():
     symbols = df['Symbol'].values.tolist()
 
     for ticker in symbols:
-        if round(yf.Ticker(ticker).info['trailingPE'], 2) <= 20.00 and \
-                round(yf.Ticker(ticker).info['earningsGrowth'], 2) >= 0.15 and \
-                round(yf.Ticker(ticker).info['revenueGrowth'], 2) >= 0.05 and \
-                round(yf.Ticker(ticker).info['dividendYield'], 2) >= 0.03 and \
-                round(yf.Ticker(ticker).info['payoutRatio'], 2) <= 0.50 and \
-                round(yf.Ticker(ticker).info['debtToEquity'], 2) <= 150.00 and \
-                (yf.Ticker(ticker).info['marketCap'] >= 10000000000) \
-                and round(yf.Ticker(ticker).info['returnOnEquity'], 2) > 0.10:
-
+        if yf.Ticker(ticker).info['earningsGrowth'] == True\
+                and yf.Ticker(ticker).info['returnOnEquity'] == True\
+                and yf.Ticker(ticker).info['debtToEquity'] < 100.0000\
+                and yf.Ticker(ticker).info['operatingMargins'] > 0.2100\
+                and yf.Ticker(ticker).info['payoutRatio'] < 0.6000\
+                and yf.Ticker(ticker).info['dividendYield'] > 0.0300:
             print(yf.Ticker(ticker).info['shortName'])
-
+        else:
+            pass
 
 
 
