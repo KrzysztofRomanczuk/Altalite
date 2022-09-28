@@ -18,7 +18,7 @@ Total function about company in shortcut:
  8.PROFITABILITY,
  
  9.RETURNS,
- \
+ 
  10.FORECAST,
  
  11.SHAREHOLDERS",
