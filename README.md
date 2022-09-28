@@ -1,14 +1,31 @@
-# Altalite
-Program do wyceny przedsiębiorstw notowanych w USA za pomocą wpisania tickera akcji
+# Altalite [Under construction]
+A program for the valuation of companies listed in the US stock exchange by entering a stock ticker
 
-Funkcje:
+Total function about company in shortcut:
 
-0. Podstawowe dane na temat firmy
-1. Wycena wskaźnikowa wyceny przedsiębiorstwa 
-3. Dane zwrotów z przeszłosci
-4. Wycena modelowa akcji (DCF/FCF/GORDON,GRAHAM,PEG)
-5. Prognoza wyceny przedsiebiorstwa za 10 lat [ML]
-6. Wykres ceny akcji
-7. Punktacja wyceny wskaźnikowej
-8. (W budowie)
-  
+ 1.BASIC_INFORMATION,
+ 
+ 2.RATIO_VALUATION,
+ 
+ 3.DIVIDEND",
+ 
+ 4.MODEL_VALUTAION [(DCF / FCF / GORDON, GRAHAM, PEG)],
+ 
+ 6.GROWTH,
+ 
+ 7.LIABILITIES,
+ 
+ 8.PROFITABILITY,
+ 
+ 9.RETURNS,
+ \
+ 10.FORECAST,
+ 
+ 11.SHAREHOLDERS",
+ 
+ 12.CHART,
+ 
+ 13.RECOMMENDATIONS,
+ 
+ 14.CRYTERIA"
+
