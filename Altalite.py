@@ -7,35 +7,43 @@ import yfinance as yf
 
 collections.Callable = collections.abc.Callable
 
-print("---------------------------------------------------------------------------------")
-print("Welcome in app Altalite!\n"
-      "Enter below the ticker of the company you are interested in and I will analyze it for you")
-print("---------------------------------------------------------------------------------")
 
-CompanyTicker = input("Enter company ticker:")
+CompanyTicker = input("Enter company ticker you want analyze:")
+
+
+def DisplayTitle():
+    print(Separator())
+    print("Welcome in app Altalite!\n"
+              "Choose program which area of company you are interested in and I will analyze it for you")
+    print(Separator())
+    start()
+
+
+def Separator():
+    print("---------------------------------------------------------------------------------")
 
 
 def start():
     program = [
         "1.BASIC_INFORMATION",
-        "3.RATIO_VALUATION",
-        "4.DIVIDEND",
-        "5.MODEL_VALUTAION",
-        "6.GROWTH",
-        "7.LIABILITIES",
-        "8.PROFITABILITY",
-        "9.RETURN",
-        "10.FORECAST",
-        "11.SHAREHOLDERS",
-        "12.CHART",
-        "13.RECOMMENDATIONS",
-        "14.CRYTERIA"
+        "2.RATIO_VALUATION",
+        "3.DIVIDEND",
+        "4.MODEL_VALUTAION",
+        "5.GROWTH",
+        "6.LIABILITIES",
+        "7.PROFITABILITY",
+        "8.RETURN",
+        "9.FORECAST",
+        "10.SHAREHOLDERS",
+        "11.CHART",
+        "12.RECOMMENDATIONS",
+        "13.CRYTERIA"
     ]
     for i in program:
         print(i)
-    print("---------------------------------------------------------------------------------")
+    print(Separator())
     x = input("Choose_program:").upper()
-    print("---------------------------------------------------------------------------------")
+    print(Separator())
 
     if x == "BASIC_INFORMATION":
         return BASIC_INFORMATION(), end()
@@ -66,9 +74,7 @@ def start():
 
 
 def BASIC_INFORMATION():
-    print("-------------")
-    print("BASIC_INFORMATION")
-    print("-------------")
+    print(Separator())
     # -----
     CompanyName = yf.Ticker(CompanyTicker).info['shortName']
     print("Name:", CompanyName)
@@ -87,10 +93,7 @@ def BASIC_INFORMATION():
 
 
 def RATIO_VALUATION():
-    print("-------------")
-    print("RATIO_VALUATION")
-    print("-------------")
-
+    print(Separator())
     TrailingPE = yf.Ticker(CompanyTicker).info['trailingPE']
     if round(TrailingPE, 2) > 20:
         print("Price_to_earnings:", round(TrailingPE, 2), "[COMPANY_OVERVALUED]")
@@ -119,9 +122,7 @@ def RATIO_VALUATION():
 
 
 def DIVIDEND():
-    print("-------------")
-    print("DIVIDEND_DATA")
-    print("-------------")
+    print(Separator())
     DividendYield = yf.Ticker(CompanyTicker).info['dividendYield']
     if DividendYield is None:
         print("COMPANY DON'T PAY DIVIDEND:", "[NONE]")
@@ -150,9 +151,7 @@ def DIVIDEND():
 
 
 def MODEL_VALUTAION():
-    print("-------------")
-    print("MODEL_VALUTAION")
-    print("-------------")
+    print(Separator())
     PEG_RATIO = yf.Ticker(CompanyTicker).info['pegRatio']
     if round(PEG_RATIO, 2) > 1.00:
         print("PEG_RATIO:", round(PEG_RATIO, 2), "[COMPANY_OVERVALUED]")
@@ -185,9 +184,7 @@ def MODEL_VALUTAION():
 
 
 def GROWTH():
-    print("-------------")
-    print("Growth")
-    print("-------------")
+    print(Separator())
     RevenueGrowth = yf.Ticker(CompanyTicker).info['revenueGrowth']
     print("RevenueGrowth:", (round(RevenueGrowth, 2) * 100), "%")
     EarningsGrowth = yf.Ticker(CompanyTicker).info['earningsGrowth']
@@ -199,9 +196,7 @@ def GROWTH():
 
 
 def LIABILITIES():
-    print("-------------")
-    print("DEBT_RATIO")
-    print("-------------")
+    print(Separator())
     Current_Ratio = yf.Ticker(CompanyTicker).info['currentRatio']
     if round(Current_Ratio, 2) >= 2.00:
         print("Current_Ratio:", round(Current_Ratio, 2), "[THE COMPANY DOES BAD MANAGEMENT OF THE CAPITAL]")
@@ -230,9 +225,7 @@ def LIABILITIES():
 
 
 def PROFITABILITY():
-    print("-------------")
-    print("PROFITABILITY_RATIO")
-    print("-------------")
+    print(Separator())
     ROE = yf.Ticker(CompanyTicker).info['returnOnEquity']  #
     if 0.10 <= round(ROE, 2) <= 0.15:
         print("ReturnOnEquity:", round(ROE, 2), "[ROE_IS_HEALTHY]")
@@ -281,9 +274,7 @@ def PROFITABILITY():
 
 
 def RETURN():
-    print("-------------")
-    print("RETURN")
-    print("-------------")
+    print(Separator())
     # -----
     ytdReturn = yf.Ticker(CompanyTicker).info['ytdReturn']  # Return from the beginning of the year
     print("Year_to_date_Return:", ytdReturn)
@@ -294,20 +285,20 @@ def RETURN():
 
 
 def FORECAST():
+    print(Separator())
     # Todo
     # Forecast with ML/AI model
     pass
 
 
 def SHAREHOLDERS():
-    print("-----------------------------------------")
-    print("SHAREHOLDERS")
-    print("------------------------------------------------------------------")
+    print(Separator())
     SHAREHOLDERS = yf.Ticker(CompanyTicker).institutional_holders
     print(SHAREHOLDERS)
 
 
 def RECOMMENDATIONS():
+    print(Separator())
     TargetPrice = yf.Ticker(CompanyTicker).info['targetMeanPrice']
     jk = round(yf.Ticker(CompanyTicker).info['currentPrice'] / TargetPrice, 2)
     print("AVG_PRICE_TARGET:", TargetPrice, )
@@ -328,6 +319,7 @@ def CHART():
 
 
 def end():
+    print(Separator())
     xx = input("If you want to check another function, write yes, if not write no:", ).upper()
     if xx == "YES":
         return start()
@@ -338,6 +330,7 @@ def end():
 
 
 def CRYTERIA():
+    print(Separator())
     payload = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
     first_table = payload[0]
     df = first_table
@@ -355,11 +348,13 @@ def CRYTERIA():
         else:
             pass
 
+
 def ValuePoints():
     # Todo
     pass
 
-print(start())
+
+print(DisplayTitle())
 
 # Todo
 # Frontend in JS or Django
