@@ -355,6 +355,9 @@ def CRYTERIA():
         else:
             pass
 
+def ValuePoints():
+    # Todo
+    pass
 
 print(start())
 
