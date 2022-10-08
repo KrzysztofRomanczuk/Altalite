@@ -24,25 +24,25 @@ def PrintSeparator():
 
 def start():
     program = [
-        "1.BASIC_INFORMATION",
-        "2.RATIO_VALUATION",
-        "3.DIVIDEND",
-        "4.MODEL_VALUTAION",
-        "5.GROWTH",
-        "6.LIABILITIES",
-        "7.PROFITABILITY",
-        "8.RETURN",
-        "9.FORECAST",
-        "10.SHAREHOLDERS",
-        "11.CHART",
-        "12.RECOMMENDATIONS",
-        "13.CRYTERIA"
+        "BASIC_INFORMATION",
+        "RATIO_VALUATION",
+        "DIVIDEND",
+        "MODEL_VALUTAION",
+        "GROWTH",
+        "LIABILITIES",
+        "PROFITABILITY",
+        "RETURN",
+        "FORECAST",
+        "SHAREHOLDERS",
+        "CHART",
+        "RECOMMENDATIONS",
+        "CRYTERIA"
     ]
-    for i in program:
-        print(i)
+    for i, index in enumerate(program):
+        print(i, ".", index)
+
     print(PrintSeparator())
     x = input("Choose_program:").upper()
-    print(PROFITABILITY())
 
     if x == "BASIC_INFORMATION":
         return BASIC_INFORMATION(), end()
