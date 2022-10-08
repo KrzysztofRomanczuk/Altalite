@@ -353,7 +353,6 @@ def ValuePoints():
     pass
 
 
-print(DisplayTitle())
-
+start()
 # Todo
 # Frontend in JS or Django
