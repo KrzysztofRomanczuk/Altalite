@@ -11,10 +11,10 @@ CompanyTicker = input("Enter company ticker you want analyze:")
 
 
 def DisplayTitle():
-    print(PrintSeparator())
+    PrintSeparator()
     print("Welcome in app Altalite!\n"
           "Choose program which area of company you are interested in and I will analyze it for you")
-    print(PrintSeparator())
+    PrintSeparator()
     start()
 
 
@@ -73,7 +73,7 @@ def start():
 
 
 def BASIC_INFORMATION():
-    print(PrintSeparator())
+    PrintSeparator()
     # -----
     CompanyName = yf.Ticker(CompanyTicker).info['shortName']
     print("Name:", CompanyName)
@@ -92,7 +92,7 @@ def BASIC_INFORMATION():
 
 
 def RATIO_VALUATION():
-    print(PrintSeparator())
+    PrintSeparator()
     TrailingPE = yf.Ticker(CompanyTicker).info['trailingPE']
     if round(TrailingPE, 2) > 20:
         print("Price_to_earnings:", round(TrailingPE, 2), "[COMPANY_OVERVALUED]")
@@ -121,7 +121,7 @@ def RATIO_VALUATION():
 
 
 def DIVIDEND():
-    print(PrintSeparator())
+    PrintSeparator()
     DividendYield = yf.Ticker(CompanyTicker).info['dividendYield']
     if DividendYield is None:
         print("COMPANY DON'T PAY DIVIDEND:", "[NONE]")
@@ -150,7 +150,7 @@ def DIVIDEND():
 
 
 def MODEL_VALUTAION():
-    print(PrintSeparator())
+    PrintSeparator()
     PEG_RATIO = yf.Ticker(CompanyTicker).info['pegRatio']
     if round(PEG_RATIO, 2) > 1.00:
         print("PEG_RATIO:", round(PEG_RATIO, 2), "[COMPANY_OVERVALUED]")
@@ -183,7 +183,7 @@ def MODEL_VALUTAION():
 
 
 def GROWTH():
-    print(PrintSeparator())
+    PrintSeparator()
     RevenueGrowth = yf.Ticker(CompanyTicker).info['revenueGrowth']
     print("RevenueGrowth:", (round(RevenueGrowth, 2) * 100), "%")
     EarningsGrowth = yf.Ticker(CompanyTicker).info['earningsGrowth']
@@ -195,7 +195,7 @@ def GROWTH():
 
 
 def LIABILITIES():
-    print(PrintSeparator())
+    PrintSeparator()
     Current_Ratio = yf.Ticker(CompanyTicker).info['currentRatio']
     if round(Current_Ratio, 2) >= 2.00:
         print("Current_Ratio:", round(Current_Ratio, 2), "[THE COMPANY DOES BAD MANAGEMENT OF THE CAPITAL]")
@@ -224,7 +224,7 @@ def LIABILITIES():
 
 
 def PROFITABILITY():
-    print(PrintSeparator())
+    PrintSeparator()
     ROE = yf.Ticker(CompanyTicker).info['returnOnEquity']  #
     if 0.10 <= round(ROE, 2) <= 0.15:
         print("ReturnOnEquity:", round(ROE, 2), "[ROE_IS_HEALTHY]")
@@ -273,7 +273,7 @@ def PROFITABILITY():
 
 
 def RETURN():
-    print(PrintSeparator())
+    PrintSeparator()
     # -----
     ytdReturn = yf.Ticker(CompanyTicker).info['ytdReturn']  # Return from the beginning of the year
     print("Year_to_date_Return:", ytdReturn)
@@ -284,20 +284,20 @@ def RETURN():
 
 
 def FORECAST():
-    print(PrintSeparator())
+    PrintSeparator()
     # Todo
     # Forecast with ML/AI model
     pass
 
 
 def SHAREHOLDERS():
-    print(PrintSeparator())
+    PrintSeparator()
     SHAREHOLDERS = yf.Ticker(CompanyTicker).institutional_holders
     print(SHAREHOLDERS)
 
 
 def RECOMMENDATIONS():
-    print(PrintSeparator())
+    PrintSeparator()
     TargetPrice = yf.Ticker(CompanyTicker).info['targetMeanPrice']
     jk = round(yf.Ticker(CompanyTicker).info['currentPrice'] / TargetPrice, 2)
     print("AVG_PRICE_TARGET:", TargetPrice, )
@@ -318,7 +318,7 @@ def CHART():
 
 
 def end():
-    print(PrintSeparator())
+    PrintSeparator()
     xx = input("If you want to check another function, write yes, if not write no:", ).upper()
     if xx == "YES":
         return start()
@@ -329,7 +329,7 @@ def end():
 
 
 def CRYTERIA():
-    print(PrintSeparator())
+    PrintSeparator()
     payload = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
     first_table = payload[0]
     df = first_table
