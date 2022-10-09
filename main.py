@@ -7,7 +7,7 @@ import yfinance as yf
 
 collections.Callable = collections.abc.Callable
 
-CompanyTicker = input("Enter company ticker you want analyze:")
+CompanyTickerFromUserInput = input("Enter company ticker you want analyze:")
 
 
 def DisplayTitle():
@@ -15,7 +15,7 @@ def DisplayTitle():
     print("Welcome in app Altalite!\n"
           "Choose program which area of company you are interested in and I will analyze it for you")
     PrintSeparator()
-    start()
+
 
 
 def PrintSeparator():
@@ -23,6 +23,7 @@ def PrintSeparator():
 
 
 def start():
+    DisplayTitle()
     program = [
         "BASIC_INFORMATION",
         "RATIO_VALUATION",
@@ -75,25 +76,25 @@ def start():
 def BASIC_INFORMATION():
     PrintSeparator()
     # -----
-    CompanyName = yf.Ticker(CompanyTicker).info['shortName']
+    CompanyName = yf.Ticker(CompanyTickerFromUserInput).info['shortName']
     print("Name:", CompanyName)
     # ------
-    Sector = yf.Ticker(CompanyTicker).info['sector']
+    Sector = yf.Ticker(CompanyTickerFromUserInput).info['sector']
     print("SECTOR:", Sector)
     # -----
-    INDUSTRY = yf.Ticker(CompanyTicker).info['industry']
+    INDUSTRY = yf.Ticker(CompanyTickerFromUserInput).info['industry']
     print("INDUSTRY:", INDUSTRY)
     # -----
-    MarketCap = yf.Ticker(CompanyTicker).info['marketCap']
+    MarketCap = yf.Ticker(CompanyTickerFromUserInput).info['marketCap']
     print("MARKET_CAP:", MarketCap)
     # -----
-    CurrentPrice = yf.Ticker(CompanyTicker).info['currentPrice']
+    CurrentPrice = yf.Ticker(CompanyTickerFromUserInput).info['currentPrice']
     print("CurrentPrice_USD:", CurrentPrice)
 
 
 def RATIO_VALUATION():
     PrintSeparator()
-    TrailingPE = yf.Ticker(CompanyTicker).info['trailingPE']
+    TrailingPE = yf.Ticker(CompanyTickerFromUserInput).info['trailingPE']
     if round(TrailingPE, 2) > 20:
         print("Price_to_earnings:", round(TrailingPE, 2), "[COMPANY_OVERVALUED]")
     elif round(TrailingPE, 2) == 20:
@@ -101,7 +102,7 @@ def RATIO_VALUATION():
     elif round(TrailingPE, 2) < 10:
         print("Price_to_earnings:", round(TrailingPE, 2), "[COMPANY_UNDERVALUED]")
 
-    PriceToBook = yf.Ticker(CompanyTicker).info['priceToBook']
+    PriceToBook = yf.Ticker(CompanyTickerFromUserInput).info['priceToBook']
     if PriceToBook is None:
         print("PRICE_TO_BOOK:", "[COMPANY HAVE NEGATIVE PRICE_TO_BOOK RATIO]")
     elif round(PriceToBook, 2) > 2:
@@ -111,7 +112,7 @@ def RATIO_VALUATION():
     elif round(PriceToBook, 2) < 1:
         print("PRICE_TO_BOOK:", round(PriceToBook, 2), "[COMPANY_UNDERVALUED]")
 
-    EV_EBITDA = yf.Ticker(CompanyTicker).info['enterpriseToEbitda']  # ENTERPRISE VALUE TO EBITDA
+    EV_EBITDA = yf.Ticker(CompanyTickerFromUserInput).info['enterpriseToEbitda']  # ENTERPRISE VALUE TO EBITDA
     if round(EV_EBITDA, 2) > 12:
         print("EV_EBITDA:", round(EV_EBITDA, 2), "[COMPANY_OVERVALUED]")
     elif round(EV_EBITDA, 2) == 12:
@@ -122,7 +123,7 @@ def RATIO_VALUATION():
 
 def DIVIDEND():
     PrintSeparator()
-    DividendYield = yf.Ticker(CompanyTicker).info['dividendYield']
+    DividendYield = yf.Ticker(CompanyTickerFromUserInput).info['dividendYield']
     if DividendYield is None:
         print("COMPANY DON'T PAY DIVIDEND:", "[NONE]")
     elif 0.0500 >= round(DividendYield, 4) >= 0.0200:
@@ -132,13 +133,13 @@ def DIVIDEND():
     elif round(DividendYield, 4) >= 0.0600:
         print("DIVIDEND_YIELD:", (round(DividendYield, 4) * 100), "[HIGH_YIELD_CHECK_SECURITY]")
 
-    AVERAGE_5Y_DIV = yf.Ticker(CompanyTicker).info['fiveYearAvgDividendYield']
+    AVERAGE_5Y_DIV = yf.Ticker(CompanyTickerFromUserInput).info['fiveYearAvgDividendYield']
     if AVERAGE_5Y_DIV is None:
         print("AVERAGE_5y_DIVIDEND_YIELD:", "[The company has a shorter dividend record or will not pay it out]")
     elif round(AVERAGE_5Y_DIV, 2) >= 0.01:
         print("AVERAGE_5y_DIVIDEND_YIELD:", round(AVERAGE_5Y_DIV, 2), "%")
 
-    PayoutRatio = yf.Ticker(CompanyTicker).info['payoutRatio']
+    PayoutRatio = yf.Ticker(CompanyTickerFromUserInput).info['payoutRatio']
     if PayoutRatio is None:
         print("COMPANY_DON'T_PAYOUT_EARNINGS:", "[NONE]")
     elif round(PayoutRatio, 6) <= 0.19:
@@ -151,7 +152,7 @@ def DIVIDEND():
 
 def MODEL_VALUTAION():
     PrintSeparator()
-    PEG_RATIO = yf.Ticker(CompanyTicker).info['pegRatio']
+    PEG_RATIO = yf.Ticker(CompanyTickerFromUserInput).info['pegRatio']
     if round(PEG_RATIO, 2) > 1.00:
         print("PEG_RATIO:", round(PEG_RATIO, 2), "[COMPANY_OVERVALUED]")
     elif round(PEG_RATIO, 2) == 1.00:
@@ -162,9 +163,9 @@ def MODEL_VALUTAION():
     soup = BeautifulSoup(requests.get("https://fred.stlouisfed.org/series/AAA").text, 'lxml')  # Web scrapping
     strona = soup.find('span', class_='series-meta-observation-value').get_text()
     hom = float(strona)
-    graham = (round(yf.Ticker(CompanyTicker).info['trailingEps'], 2) *
-              (8.5 + (2 * round(yf.Ticker(CompanyTicker).info['earningsGrowth'], 2))) * 4.4) / hom
-    graham1 = round(yf.Ticker(CompanyTicker).info['currentPrice'], 2) / round(graham, 2)
+    graham = (round(yf.Ticker(CompanyTickerFromUserInput).info['trailingEps'], 2) *
+              (8.5 + (2 * round(yf.Ticker(CompanyTickerFromUserInput).info['earningsGrowth'], 2))) * 4.4) / hom
+    graham1 = round(yf.Ticker(CompanyTickerFromUserInput).info['currentPrice'], 2) / round(graham, 2)
     gh = round(graham1, 2)
     if gh == 1:
         print("GRAHAM_MODEL:", gh, "[COMPANY_FAIRVALUED]")
@@ -184,9 +185,9 @@ def MODEL_VALUTAION():
 
 def GROWTH():
     PrintSeparator()
-    RevenueGrowth = yf.Ticker(CompanyTicker).info['revenueGrowth']
+    RevenueGrowth = yf.Ticker(CompanyTickerFromUserInput).info['revenueGrowth']
     print("RevenueGrowth:", (round(RevenueGrowth, 2) * 100), "%")
-    EarningsGrowth = yf.Ticker(CompanyTicker).info['earningsGrowth']
+    EarningsGrowth = yf.Ticker(CompanyTickerFromUserInput).info['earningsGrowth']
     print("EarningsGrowth:", (round(EarningsGrowth, 2) * 100), "%")
 
 
@@ -194,9 +195,10 @@ def GROWTH():
 # GROWTH RATE EBITDA, DIVIDEND, DEBT  #pandas data frame
 
 
+# noinspection PyUnresolvedReferences
 def LIABILITIES():
     PrintSeparator()
-    Current_Ratio = yf.Ticker(CompanyTicker).info['currentRatio']
+    Current_Ratio = yf.Ticker(CompanyTickerFromUserInput).info['currentRatio']
     if round(Current_Ratio, 2) >= 2.00:
         print("Current_Ratio:", round(Current_Ratio, 2), "[THE COMPANY DOES BAD MANAGEMENT OF THE CAPITAL]")
     elif round(Current_Ratio, 2) <= 1.00:
@@ -204,7 +206,7 @@ def LIABILITIES():
     else:
         print("Current_Ratio:", round(Current_Ratio, 2), "[THE COMPANY DOES GOOD MANAGEMENT OF THE CAPITAL]")
 
-    QuickRatio = yf.Ticker(CompanyTicker).info['quickRatio']
+    QuickRatio = yf.Ticker(CompanyTickerFromUserInput).info['quickRatio']
     if QuickRatio is None:
         print("Quick_Ratio:", "[None data]")
     elif round(QuickRatio, 2) >= 1:
@@ -212,7 +214,7 @@ def LIABILITIES():
     elif round(QuickRatio, 2) <= 1:
         print("Quick_Ratio:", round(QuickRatio, 2), "[COMPANY MAY HAVE PROBLEMS WITH LIQUIDITY]")
 
-    DebtToEquity = yf.Ticker(CompanyTicker).info['debtToEquity']
+    DebtToEquity = yf.Ticker(CompanyTickerFromUserInput).info['debtToEquity']
     if DebtToEquity is None:
         print("Debt_To_Equity:", "[Brak_danych]")
     elif 1 <= round(DebtToEquity, 2) < 150.00:
@@ -225,7 +227,7 @@ def LIABILITIES():
 
 def PROFITABILITY():
     PrintSeparator()
-    ROE = yf.Ticker(CompanyTicker).info['returnOnEquity']  #
+    ROE = yf.Ticker(CompanyTickerFromUserInput).info['returnOnEquity']  #
     if 0.10 <= round(ROE, 2) <= 0.15:
         print("ReturnOnEquity:", round(ROE, 2), "[ROE_IS_HEALTHY]")
     elif round(ROE, 2) >= 0.20:
@@ -233,7 +235,7 @@ def PROFITABILITY():
     elif round(ROE, 2) <= 0.09:
         print("ReturnOnEquity:", round(ROE, 2), "[ROE_IS_LOW]")
 
-    ROA = yf.Ticker(CompanyTicker).info['returnOnAssets']
+    ROA = yf.Ticker(CompanyTickerFromUserInput).info['returnOnAssets']
     if 0.05 <= round(ROA, 2) <= 0.19:
         print("ReturnOnAssets:", round(ROA, 2), "[ROA_IS_HEALTHY]")
     elif round(ROA, 2) >= 0.20:
@@ -241,7 +243,7 @@ def PROFITABILITY():
     elif round(ROA, 2) <= 0.04:
         print("ReturnOnAssets:", round(ROA, 2), "[ROA_IS_LOW]")
 
-    GrossMargins = yf.Ticker(CompanyTicker).info['grossMargins']
+    GrossMargins = yf.Ticker(CompanyTickerFromUserInput).info['grossMargins']
     if 0.50 <= round(GrossMargins, 2) <= 0.70:
         print("GrossMargins:", round(GrossMargins, 2), "[GOOD_LEVEL_GROSS_MARGIN]")
     elif 0.10 <= round(GrossMargins, 2) <= 0.50:
@@ -251,7 +253,7 @@ def PROFITABILITY():
     elif round(GrossMargins, 2) <= 0.09:
         print("GrossMargins:", round(GrossMargins, 2), "[LOW_LEVEL_GROSS_MARGIN]")
 
-    OperatingMargins = yf.Ticker(CompanyTicker).info['operatingMargins']
+    OperatingMargins = yf.Ticker(CompanyTickerFromUserInput).info['operatingMargins']
     if 0.14 <= round(OperatingMargins, 2) <= 0.20:
         print("OperatingMargins:", round(OperatingMargins, 2), "[GOOD_LEVEL_OPERATING_MARGIN]")
     elif 0.10 <= round(OperatingMargins, 2) <= 0.13:
@@ -261,7 +263,7 @@ def PROFITABILITY():
     elif round(OperatingMargins, 2) <= 0.09:
         print("OperatingMargins:", round(OperatingMargins, 2), "[LOW_LEVEL_OPERATING_MARGIN]")
 
-    ProfitMargins = yf.Ticker(CompanyTicker).info['profitMargins']
+    ProfitMargins = yf.Ticker(CompanyTickerFromUserInput).info['profitMargins']
     if 0.14 <= round(ProfitMargins, 2) <= 0.20:
         print("ProfitMargins:", round(ProfitMargins, 2), "[GOOD_LEVEL_PROFIT_MARGINS]")
     elif 0.10 <= round(ProfitMargins, 2) <= 0.13:
@@ -275,10 +277,10 @@ def PROFITABILITY():
 def RETURN():
     PrintSeparator()
     # -----
-    ytdReturn = yf.Ticker(CompanyTicker).info['ytdReturn']  # Return from the beginning of the year
+    ytdReturn = yf.Ticker(CompanyTickerFromUserInput).info['ytdReturn']  # Return from the beginning of the year
     print("Year_to_date_Return:", ytdReturn)
     # -----
-    FiveYearAverageReturn = yf.Ticker(CompanyTicker).info['fiveYearAverageReturn']
+    FiveYearAverageReturn = yf.Ticker(CompanyTickerFromUserInput).info['fiveYearAverageReturn']
     print("RETURN_FROM_LATEST_5_Years_AVG_ANNUAL:", FiveYearAverageReturn)
     # -----
 
@@ -292,25 +294,25 @@ def FORECAST():
 
 def SHAREHOLDERS():
     PrintSeparator()
-    SHAREHOLDERS = yf.Ticker(CompanyTicker).institutional_holders
+    SHAREHOLDERS = yf.Ticker(CompanyTickerFromUserInput).institutional_holders
     print(SHAREHOLDERS)
 
 
 def RECOMMENDATIONS():
     PrintSeparator()
-    TargetPrice = yf.Ticker(CompanyTicker).info['targetMeanPrice']
-    jk = round(yf.Ticker(CompanyTicker).info['currentPrice'] / TargetPrice, 2)
+    TargetPrice = yf.Ticker(CompanyTickerFromUserInput).info['targetMeanPrice']
+    jk = round(yf.Ticker(CompanyTickerFromUserInput).info['currentPrice'] / TargetPrice, 2)
     print("AVG_PRICE_TARGET:", TargetPrice, )
-    price = yf.Ticker(CompanyTicker).info['currentPrice']
+    price = yf.Ticker(CompanyTickerFromUserInput).info['currentPrice']
     print("Price:", price)
     print("CURRENT PRICE / AVERAGE_TARGET_PRICE_ANALITICS: ", jk, " TO_TARGET_PRICE: ", round((1 - jk) * 100, 2),
           "%")
-    recommendations = yf.Ticker(CompanyTicker).recommendations
+    recommendations = yf.Ticker(CompanyTickerFromUserInput).recommendations
     print("Recommendations:", recommendations)
 
 
 def CHART():
-    CHART = yf.Ticker(CompanyTicker)
+    CHART = yf.Ticker(CompanyTickerFromUserInput)
     hist = CHART.history(period='5y')
     hist.head()
     fig = go.Figure(data=go.Scatter(x=hist.index, y=hist['Close'], mode='lines'))
