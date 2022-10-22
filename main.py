@@ -17,7 +17,6 @@ def DisplayTitle():
     PrintSeparator()
 
 
-
 def PrintSeparator():
     print("---------------------------------------------------------------------------------")
 
@@ -40,9 +39,9 @@ def start():
         "CRYTERIA"
     ]
     for i, index in enumerate(program):
-        print(i, ".", index)
+        print(i + 1, ".", index)
 
-    print(PrintSeparator())
+    PrintSeparator()
     x = input("Choose_program:").upper()
 
     if x == "BASIC_INFORMATION":
@@ -95,7 +94,9 @@ def BASIC_INFORMATION():
 def RATIO_VALUATION():
     PrintSeparator()
     TrailingPE = yf.Ticker(CompanyTickerFromUserInput).info['trailingPE']
-    if round(TrailingPE, 2) > 20:
+    if TrailingPE is None:
+        print("Price_to_earnings:", "[COMPANY HAVE NEGATIVE PRICE_TO_EARNINGS RATIO]")
+    elif round(TrailingPE, 2) > 20:
         print("Price_to_earnings:", round(TrailingPE, 2), "[COMPANY_OVERVALUED]")
     elif round(TrailingPE, 2) == 20:
         print("Price_to_earnings:", round(TrailingPE, 2), "[COMPANY_FAIRVALUED]")
@@ -113,7 +114,9 @@ def RATIO_VALUATION():
         print("PRICE_TO_BOOK:", round(PriceToBook, 2), "[COMPANY_UNDERVALUED]")
 
     EV_EBITDA = yf.Ticker(CompanyTickerFromUserInput).info['enterpriseToEbitda']  # ENTERPRISE VALUE TO EBITDA
-    if round(EV_EBITDA, 2) > 12:
+    if EV_EBITDA is None:
+        print("EV_EBITDA:", "[COMPANY HAVE NEGATIVE EV_EBITDA RATIO]")
+    elif round(EV_EBITDA, 2) > 12:
         print("EV_EBITDA:", round(EV_EBITDA, 2), "[COMPANY_OVERVALUED]")
     elif round(EV_EBITDA, 2) == 12:
         print("EV_EBITDA:", round(EV_EBITDA, 2), "[COMPANY_FAIRVALUED]")
@@ -216,7 +219,7 @@ def LIABILITIES():
 
     DebtToEquity = yf.Ticker(CompanyTickerFromUserInput).info['debtToEquity']
     if DebtToEquity is None:
-        print("Debt_To_Equity:", "[Brak_danych]")
+        print("Debt_To_Equity:", "[None data]")
     elif 1 <= round(DebtToEquity, 2) < 150.00:
         print("Debt_To_Equity:", round(DebtToEquity, 2), "[THE COMPANY DOES GOOD MANAGEMENT OF THE CAPITAL]")
     elif round(DebtToEquity, 2) >= 100.00:
