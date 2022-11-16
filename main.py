@@ -12,7 +12,7 @@ CompanyTickerFromUserInput = input("Enter company ticker you want analyze:")
 
 def DisplayTitle():
     PrintSeparator()
-    print("Welcome in app Altalite!\n"
+    print("Welcome in app Altalite! \n"
           "Choose program which area of company you are interested in and I will analyze it for you")
     PrintSeparator()
 
@@ -36,7 +36,7 @@ def start():
         "SHAREHOLDERS",
         "CHART",
         "RECOMMENDATIONS",
-        "CRYTERIA"
+        "CRITERIA"
     ]
     for i, index in enumerate(program):
         print(i + 1, ".", index)
@@ -44,32 +44,32 @@ def start():
     PrintSeparator()
     x = input("Choose_program:").upper()
 
-    if x == "BASIC_INFORMATION":
+    if x == "BASIC_INFORMATION" or 1:
         return BASIC_INFORMATION(), end()
-    elif x == "RATIO_VALUATION":
+    elif x == "RATIO_VALUATION" or 2:
         return RATIO_VALUATION(), end()
-    elif x == "DIVIDEND":
+    elif x == "DIVIDEND" or 3:
         return DIVIDEND(), end()
-    elif x == "MODEL_VALUTAION":
+    elif x == "MODEL_VALUATION" or 4:
         return MODEL_VALUTAION(), end()
-    elif x == "GROWTH":
+    elif x == "GROWTH" or 5:
         return GROWTH(), end()
-    elif x == "LIABILITIES":
+    elif x == "LIABILITIES" or 6:
         return LIABILITIES(), end()
-    elif x == "PROFITABILITY":
+    elif x == "PROFITABILITY" or 7:
         return PROFITABILITY(), end()
-    elif x == "RETURN":
+    elif x == "RETURN" or 8:
         return RETURN(), end()
-    elif x == "FORECAST":
+    elif x == "FORECAST" or 9:
         return FORECAST(), end()
-    elif x == "SHAREHOLDERS":
+    elif x == "SHAREHOLDERS" or 10:
         return SHAREHOLDERS(), end()
-    elif x == "CHART":
+    elif x == "CHART" or 11:
         return CHART(), end()
-    elif x == "RECOMMENDATIONS":
+    elif x == "RECOMMENDATIONS" or 12:
         return RECOMMENDATIONS(), end()
-    elif x == "CRYTERIA":
-        return CRYTERIA(), end()
+    elif x == "CRITERIA" or 13:
+        return CRITERIA(), end()
 
 
 def BASIC_INFORMATION():
@@ -132,7 +132,7 @@ def DIVIDEND():
     elif 0.0500 >= round(DividendYield, 4) >= 0.0200:
         print("DIVIDEND_YIELD:", (round(DividendYield, 4) * 100), "[SECURE_DIVIDEND_YIELD_LEVEL]")
     elif round(DividendYield, 4) < 0.0190:
-        print("DIVIDEND_YIELD:", (round(DividendYield, 4) * 100), "[LOW_YIELD_DYWIDENDY]")
+        print("DIVIDEND_YIELD:", (round(DividendYield, 4) * 100), "[LOW_YIELD_DIVIDEND]")
     elif round(DividendYield, 4) >= 0.0600:
         print("DIVIDEND_YIELD:", (round(DividendYield, 4) * 100), "[HIGH_YIELD_CHECK_SECURITY]")
 
@@ -195,6 +195,15 @@ def GROWTH():
 
 
 # Todo
+# CAGR
+# start = float(input('Start Value: '))
+# end = float(input('End Value: '))
+# periods = float(input('How many years from beginning to the end: '))
+# def CAGR(start, end, periods):
+#    return (end / start) ** (1 / periods) - 1
+# print('Your investment had a CAGR of {:.2%} '.format(CAGR(start, end, periods)))
+
+
 # GROWTH RATE EBITDA, DIVIDEND, DEBT  #pandas data frame
 
 
@@ -297,8 +306,8 @@ def FORECAST():
 
 def SHAREHOLDERS():
     PrintSeparator()
-    SHAREHOLDERS = yf.Ticker(CompanyTickerFromUserInput).institutional_holders
-    print(SHAREHOLDERS)
+    _shareholders = yf.Ticker(CompanyTickerFromUserInput).institutional_holders
+    print(_shareholders)
 
 
 def RECOMMENDATIONS():
@@ -315,8 +324,8 @@ def RECOMMENDATIONS():
 
 
 def CHART():
-    CHART = yf.Ticker(CompanyTickerFromUserInput)
-    hist = CHART.history(period='5y')
+    _chart = yf.Ticker(CompanyTickerFromUserInput)
+    hist = _chart.history(period='5y')
     hist.head()
     fig = go.Figure(data=go.Scatter(x=hist.index, y=hist['Close'], mode='lines'))
     fig.show()
@@ -333,7 +342,7 @@ def end():
         print("Something is wrong")
 
 
-def CRYTERIA():
+def CRITERIA():
     PrintSeparator()
     payload = pd.read_html('https://en.wikipedia.org/wiki/List_of_S%26P_500_companies')
     first_table = payload[0]
